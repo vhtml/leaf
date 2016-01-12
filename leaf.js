@@ -13,7 +13,7 @@
 	function $(selector) {
 		//匹配单个id，使用getElementById，据说性能好
 		if (idReg.test(selector)) {
-			return doc.getElementById(selector.replace(/^#/,''));
+			return doc.getElementById(selector.replace(/^#/, ''));
 		} else {
 			return doc.querySelectorAll(selector);
 		}
@@ -146,8 +146,8 @@
 				};
 			}
 			xmlhttp.open(options.type, url, options.async);
-			if(options.type == 'POST'){
-				xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			if (options.type == 'POST') {
+				xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			}
 			xmlhttp.send(options.type == 'POST' ? options.data : null);
 			if (!options.async) {
@@ -197,7 +197,7 @@
 			}
 			return e;
 		},
-		after: function(e, html){
+		after: function(e, html) {
 			var oDiv = document.createElement('div');
 			oDiv.innerHTML = html;
 			var oFrag = document.createDocumentFragment();
@@ -207,7 +207,7 @@
 			}
 			e.appendChild(oFrag);
 		},
-		before: function(e, html){
+		before: function(e, html) {
 			var oDiv = document.createElement('div');
 			oDiv.innerHTML = html;
 			var oFrag = document.createDocumentFragment();
@@ -279,20 +279,21 @@
 			}
 			return isTouchDevice;
 		},
-		alert: (function(doc){
+		alert: (function(doc) {
 			var cssOverlay = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:20150824;background-color:rgba(0,0,0,0.2);',
 				cssCon = 'position: absolute;padding:5px;background-color: rgba(123,123,123,0.3);top:50%;left: 50%;border-radius: 5px;-webkit-transition:opacity 0.2s linear;transition:opacity 0.2s linear',
 				cssP = 'padding:5px 10px;line-height: 20px;max-width: 250px;color:#fff;font-size:14px;font-family: "Microsoft YaHei";background-color: #ED9A19;border-radius: 2px';
 
 
 			var lc = {
-				tips: function(text, timer) {
+				tips: function(text, timer, cb) {
 					clearTimeout(this.t);
 					this.oPrev && doc.body.removeChild(this.oPrev);
 					this.generateHTML(text);
 					this.show();
-					timer = timer || 1000;
-					this.hide(timer);
+					var duration = typeof timer === 'number' ? timer : 1000;
+					this.cb = typeof cb === 'function' ? cb : typeof timer === 'function' ? timer : null;
+					this.hide(duration);
 				},
 				generateHTML: function(text) {
 					this.oP = document.createElement("p");
@@ -311,6 +312,8 @@
 					var w = this.oCon.offsetWidth;
 					this.oCon.style.marginLeft = -w / 2 + "px";
 					this.oCon.style.marginTop = -h / 2 + "px";
+					this.oCon.style.left = '50%';
+					this.oCon.style.top = '50%';
 					this.oPrev = this.oTip;
 				},
 				hide: function(timer) {
@@ -320,6 +323,7 @@
 						setTimeout(function() {
 							doc.body.removeChild(_this.oTip);
 							_this.oPrev = null;
+							_this.cb && _this.cb();
 						}, 200);
 					}, timer);
 				},
@@ -327,8 +331,8 @@
 					o.style.cssText = csstext;
 				}
 			};
-			return function(text){
-				lc.tips.call(lc, text);
+			return function(text) {
+				lc.tips.call(lc, text, cb);
 			};
 		})(doc)
 	});
