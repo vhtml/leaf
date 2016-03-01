@@ -198,24 +198,10 @@
 			return e;
 		},
 		after: function(e, html) {
-			var oDiv = document.createElement('div');
-			oDiv.innerHTML = html;
-			var oFrag = document.createDocumentFragment();
-			var childs = oDiv.children;
-			for (var i = 0, len = childs.length; i < len; i++) {
-				oFrag.appendChild(childs[0]);
-			}
-			e.appendChild(oFrag);
+			e.insertAdjacentHTML('afterEnd',html);
 		},
 		before: function(e, html) {
-			var oDiv = document.createElement('div');
-			oDiv.innerHTML = html;
-			var oFrag = document.createDocumentFragment();
-			var childs = oDiv.children;
-			for (var i = 0, len = childs.length; i < len; i++) {
-				oFrag.appendChild(childs[0]);
-			}
-			e.insertBefore(oFrag, e.firstChild);
+			e.insertAdjacentHTML('beforeBegin',html);
 		},
 		//滚动条回到顶部、左边
 		goTop: function(acceleration, time) {
