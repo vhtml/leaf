@@ -198,10 +198,10 @@
 			return e;
 		},
 		after: function(e, html) {
-			e.insertAdjacentHTML('afterEnd',html);
+			e.insertAdjacentHTML('afterEnd', html);
 		},
 		before: function(e, html) {
-			e.insertAdjacentHTML('beforeBegin',html);
+			e.insertAdjacentHTML('beforeBegin', html);
 		},
 		//滚动条回到顶部、左边
 		goTop: function(acceleration, time) {
@@ -235,7 +235,8 @@
 		},
 		//获取元素的文档坐标,e.getBoundingClientRect()返回的是视口坐标
 		getElementPostion: function(e) {
-			var x = y = 0;
+			var x = 0,
+				y = 0;
 			while (e != null) {
 				x += e.offsetLeft;
 				y += e.offsetTop;
